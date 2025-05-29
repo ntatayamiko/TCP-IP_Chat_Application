@@ -67,3 +67,32 @@ while True:
 
 conn.close()
 server.close()
+
+#########Client script
+client=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+if len(sys.argv) != 3:
+    print("correct usage: script, IP address, port#")
+    exit()
+
+IP_address=str(sys.argvv[1])
+port=int(sys.argv[2])
+server.connect((IP_address,port))
+
+while True:
+    sockets_list=[sys.stdin, server] #maintains a list of possible input streams
+    """There are two possible input situations. Either the user wants to give manual input to send to other
+    people, or the server is sending a message to be printed on the screen. Select returns from sockets_list, the
+    stream that is reader for input. eg., if the server wants to send a message, then the if condition will
+    hold true below. if the user wants to send a message, the else statement will evaluate as true"""
+    read_sockets,write_socket,error_socket=select.select(sockets_list,[],[])
+    for socks in read_sockets:
+        if socks==server:
+            message= socks.recv(2048)
+            print(message)
+        else:
+            message=sys.stdin.readline()
+            server.send(message)
+            sys.stdout.write("<you>")
+            sys.stdout.write(message)
+            sys.stdout.flush()
+server.close()
