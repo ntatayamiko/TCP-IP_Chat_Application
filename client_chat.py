@@ -8,9 +8,8 @@ import select
 
 
 #########Client script
-client=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-HOST="1227.0.0.1"
-PORT=9090
+
+
 
 class Client:
     def __init__(self,host,port):
@@ -21,6 +20,7 @@ class Client:
         msg.withdraw()
 
         self.nickname=simpledialog.askstring("Nickname", "please choose a nickname", parent=msg)
+
         self.gui_done=False
         self.running=True
 
@@ -69,7 +69,6 @@ class Client:
         exit(0)
 
 
-
     def receive(self):
         while self.running:
             try:
@@ -89,4 +88,6 @@ class Client:
                 self.sock.close()
                 break
 
+HOST="127.0.0.1"
+PORT=9090
 client=Client(HOST,PORT)
