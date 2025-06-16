@@ -67,27 +67,39 @@ def update_chat():
 
 # GUI setup
 root = tk.Tk()
-root.title("Chat Client")
+root.geometry("800x800")
+root.title("Chills Spot")
+
+tk.Label(root, text="Welcome to Chilling Spot",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
 
 # Login frame
-login_frame = tk.Frame(root)
-login_frame.pack()
+login_frame = tk.Frame(root,bg="lightblue",width=1000,height=500, )
+login_frame.pack(padx=50,pady=50,fill="both",expand=True)
 
-tk.Label(login_frame, text="Server IP:").pack()
-ip_entry = tk.Entry(login_frame)
+tk.Label(login_frame, text="Server IP:",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
+ip_entry = tk.Entry(login_frame,width=35,font=("Arial", 16))
 ip_entry.insert(0, "localhost")
-ip_entry.pack()
+ip_entry.pack(pady=10)
 
-tk.Label(login_frame, text="Port:").pack()
-port_entry = tk.Entry(login_frame)
+tk.Label(login_frame, text="Port:",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
+port_entry = tk.Entry(login_frame,width=35,font=("Arial", 16))
 port_entry.insert(0, "12345")
-port_entry.pack()
+port_entry.pack(pady=10)
 
-tk.Label(login_frame, text="Username:").pack()
-username_entry = tk.Entry(login_frame)
-username_entry.pack()
+tk.Label(login_frame, text="Username:",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
+username_entry = tk.Entry(login_frame,width=35,font=("Arial", 16))
+username_entry.pack(pady=10)
 
-tk.Button(login_frame, text="Connect", command=connect_to_server).pack()
+def on_enter(e):
+    e.widget['background'] = 'lightblue'
+
+def on_leave(e):
+    e.widget['background'] = 'skyblue'  # default color for buttons
+
+btn=tk.Button(login_frame, bg="skyblue",font=("Arial", 25),text="Connect", command=connect_to_server,width=25,pady=10)
+btn.pack(pady=50)
+btn.bind("<Enter>", on_enter)
+btn.bind("<Leave>", on_leave)
 
 # Chat frame (hidden initially)
 chat_frame = tk.Frame(root)

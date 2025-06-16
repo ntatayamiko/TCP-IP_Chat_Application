@@ -56,10 +56,11 @@ def accept_connections(server_sock):
 def start_server():
     """Start the server when the button is clicked."""
     port = int(port_entry.get())
+    ip_add=socket.gethostbyname("localhost")
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_sock.bind(('', port))
+    server_sock.bind((ip_add, port))
     server_sock.listen()
-    log_queue.put(f"Server started on port {port}")
+    log_queue.put(f"Server started on port {port} address {ip_add}")
     start_button.config(state=tk.DISABLED)
     threading.Thread(target=accept_connections, args=(server_sock,), daemon=True).start()
 
@@ -80,14 +81,14 @@ root = tk.Tk()
 root.title("Chat Server")
 
 tk.Label(root, text="Port:").pack()
-port_entry = tk.Entry(root)
+port_entry = tk.Entry(root,width=30,)
 port_entry.insert(0, "12345")
 port_entry.pack()
 
 start_button = tk.Button(root, text="Start Server", command=start_server)
 start_button.pack()
 
-log_text = scrolledtext.ScrolledText(root, width=50, height=20, state=tk.DISABLED)
+log_text = scrolledtext.ScrolledText(root, width=70, height=13, state=tk.DISABLED)
 log_text.pack()
 
 # Start log updates
