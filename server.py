@@ -60,7 +60,7 @@ def start_server():
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_sock.bind((ip_add, port))
     server_sock.listen()
-    log_queue.put(f"Server started on port {port} address {ip_add}")
+    log_queue.put(f" !! Server started on port {port} address {ip_add}")
     start_button.config(state=tk.DISABLED)
     threading.Thread(target=accept_connections, args=(server_sock,), daemon=True).start()
 
@@ -79,16 +79,30 @@ def update_logs():
 # GUI setup
 root = tk.Tk()
 root.title("Chat Server")
+root.geometry("600x600")
+root.config(bg="lightblue")
 
-tk.Label(root, text="Port:").pack()
-port_entry = tk.Entry(root,width=30,)
+frame1=tk.Frame(root,bg="lightblue",width=800,height=50)
+frame1.pack(pady=30)
+
+tk.Label(root,text="Port:",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack()
+port_entry = tk.Entry(root, width=22,bg="white",font=("Arial", 16))
 port_entry.insert(0, "12345")
-port_entry.pack()
+port_entry.pack(pady=10)
 
-start_button = tk.Button(root, text="Start Server", command=start_server)
-start_button.pack()
 
-log_text = scrolledtext.ScrolledText(root, width=70, height=13, state=tk.DISABLED)
+def on_enter(e):
+    e.widget['background'] = 'lightblue'
+
+def on_leave(e):
+    e.widget['background'] = 'skyblue'  # default color for buttons
+
+start_button = tk.Button(root,bg="skyblue",font=("Arial", 25),width=20,pady=10, text="Start Server", command=start_server)
+start_button.pack(pady=20)
+start_button.bind("<Enter>", on_enter)
+start_button.bind("<Leave>", on_leave)
+
+log_text = scrolledtext.ScrolledText(root, font=(20), fg="white",bg="black",width=70, height=13, state=tk.DISABLED)
 log_text.pack()
 
 # Start log updates

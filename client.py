@@ -104,7 +104,7 @@ btn.bind("<Leave>", on_leave)
 # Chat frame (hidden initially)
 chat_frame = tk.Frame(root)
 
-chat_text = scrolledtext.ScrolledText(chat_frame, width=50, height=20, state=tk.DISABLED)
+chat_text = scrolledtext.ScrolledText(chat_frame, width=50, height=0, state=tk.DISABLED)
 chat_text.pack()
 
 message_entry = tk.Entry(chat_frame, width=40)
