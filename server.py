@@ -79,7 +79,7 @@ def update_logs():
 # GUI setup
 root = tk.Tk()
 root.title("Chat Server")
-root.geometry("600x600")
+root.geometry("600x650")
 root.config(bg="lightblue")
 
 frame1=tk.Frame(root,bg="lightblue",width=800,height=50)

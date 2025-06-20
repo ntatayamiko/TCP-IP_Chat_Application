@@ -34,7 +34,8 @@ def connect_to_server():
         # Hide login, show chat
         for widget in login_frame.winfo_children():
             widget.pack_forget()
-        chat_frame.pack()
+        #chat_frame.pack()
+        chat_flame()
 
         # Start receiving thread
         threading.Thread(target=receive_messages, daemon=True).start()
@@ -69,6 +70,7 @@ def update_chat():
 root = tk.Tk()
 root.geometry("800x800")
 root.title("Chills Spot")
+root.config(bg="skyblue")
 
 tk.Label(root, text="Welcome to Chilling Spot",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
 
@@ -101,16 +103,20 @@ btn.pack(pady=50)
 btn.bind("<Enter>", on_enter)
 btn.bind("<Leave>", on_leave)
 
+
 # Chat frame (hidden initially)
-chat_frame = tk.Frame(root)
+def chat_flame ():
+    chat_frame = tk.Frame(login_frame, bg="lightblue", width=1000, height=500)
+    chat_frame.pack(padx=50, pady=50, fill="both", expand=True)
 
-chat_text = scrolledtext.ScrolledText(chat_frame, width=50, height=0, state=tk.DISABLED)
-chat_text.pack()
+    chat_text = scrolledtext.ScrolledText(chat_frame, font=(20), fg="white",bg="black",width=70, height=13, state=tk.DISABLED)
+    chat_text.pack()
 
-message_entry = tk.Entry(chat_frame, width=40)
-message_entry.pack(side=tk.LEFT)
+    message_entry = tk.Entry(chat_frame, width=25,font=("Arial", 25))
+    message_entry.pack(side=tk.LEFT)
 
-tk.Button(chat_frame, text="Send", command=send_message_to_server).pack(side=tk.LEFT)
+    tk.Button(chat_frame, text="Send", command=send_message_to_server,bg="skyblue",font=("Arial", 25)).pack(side=tk.LEFT,padx=7)
+
 
 # Start chat updates
 root.after(100, update_chat)
