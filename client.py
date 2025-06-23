@@ -9,7 +9,6 @@ import queue
 sock = None
 message_queue = queue.Queue()
 
-
 def receive_messages():
     """Receive messages from the server."""
     try:
@@ -34,7 +33,7 @@ def connect_to_server():
         # Hide login, show chat
         for widget in login_frame.winfo_children():
             widget.pack_forget()
-        #chat_frame.pack()
+
         chat_flame()
 
         # Start receiving thread
@@ -66,16 +65,10 @@ def update_chat():
     root.after(100, update_chat)
 
 
-# GUI setup
-root = tk.Tk()
-root.geometry("800x800")
-root.title("Chills Spot")
-root.config(bg="skyblue")
+
 
 tk.Label(root, text="Welcome to Chilling Spot",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
 
-# Login frame
-login_frame = tk.Frame(root,bg="lightblue",width=1000,height=500, )
 login_frame.pack(padx=50,pady=50,fill="both",expand=True)
 
 tk.Label(login_frame, text="Server IP:",width=50,bg="lightblue",pady=7,font=("Arial", 16)).pack(pady=10)
@@ -103,21 +96,43 @@ btn.pack(pady=50)
 btn.bind("<Enter>", on_enter)
 btn.bind("<Leave>", on_leave)
 
+## parent class
+class ROOT(tk.Tk):
+    def __init__(self):
+        super().__init__()  # initializing the main class mainwindow / call to super class
+        # GUI setup
+        self.geometry("800x800")
+        self.title("Chills Spot")
+        self.config(bg="skyblue")
+        # Login frame
+        self.message_entry = tk.Entry(self.chat_frame, width=25, font=("Arial", 25))
 
-# Chat frame (hidden initially)
-def chat_flame ():
-    chat_frame = tk.Frame(login_frame, bg="lightblue", width=1000, height=500)
-    chat_frame.pack(padx=50, pady=50, fill="both", expand=True)
+## child gui class
+class ChatPage(ROOT):
+    def __init__(self,parent):
+        super().__init__()  # initializing the main class / call to super class
+        self.chat_frame = tk.Frame(self.login_frame, bg="lightblue", width=1000, height=500)
+        chat_frame.pack(padx=50, pady=50, fill="both", expand=True)
+        chat_text = scrolledtext.ScrolledText(chat_frame, font=20, fg="white", bg="black", width=70, height=13,
+                                              state=tk.DISABLED)
+        chat_text.pack()
+        message_entry = tk.Entry(chat_frame, width=25, font=("Arial", 25))
+        message_entry.pack(side=tk.LEFT)
+        tk.Button(chat_frame, text="Send", command=send_message_to_server, bg="skyblue", font=("Arial", 25)).pack(
+            side=tk.LEFT, padx=7)
+    def chat_flame(self):
+        pass
 
-    chat_text = scrolledtext.ScrolledText(chat_frame, font=(20), fg="white",bg="black",width=70, height=13, state=tk.DISABLED)
-    chat_text.pack()
 
-    message_entry = tk.Entry(chat_frame, width=25,font=("Arial", 25))
-    message_entry.pack(side=tk.LEFT)
-
-    tk.Button(chat_frame, text="Send", command=send_message_to_server,bg="skyblue",font=("Arial", 25)).pack(side=tk.LEFT,padx=7)
-
+## child gui login
+class LoginPage(ROOT):
+    def __init__(self,parent):
+        super().__init__()  # initializing the main class / call to super class
+        self.login_frame = tk.Frame(self.root, bg="lightblue", width=1000, height=500)
 
 # Start chat updates
 root.after(100, update_chat)
-root.mainloop()
+
+if __name__ == "__main__":
+    app=ROOT()
+    app.mainloop()
